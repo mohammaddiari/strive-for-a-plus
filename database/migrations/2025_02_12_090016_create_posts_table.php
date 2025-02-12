@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'tutor_id');
+            $table->foreignIdFor(User::class);
             $table->string('subject');
             $table->decimal('price');
             $table->enum('level', Level::values());

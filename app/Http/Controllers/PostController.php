@@ -16,7 +16,9 @@ class PostController extends Controller
      */
     public function index(): View
     {
-        return view('posts.index');
+        return view('posts.index', [
+            'posts' => Post::with('user')->latest()->get(),
+        ]);
     }
 
     /**
@@ -38,6 +40,7 @@ class PostController extends Controller
             'level' => [Rule::enum(Level::class)],
             'capacity' => 'required|integer|min:1',
         ]);
+
 
         $request->user()->posts()->create($validated);
         return redirect(route('posts.index'));

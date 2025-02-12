@@ -19,7 +19,7 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            'tutor_id' => User::factory(),
+            'user_id' => User::factory(),
             'subject' => fake()->sentence(),
             'price' => fake()->randomFloat(2),
             'level' => fake()->randomElement(Level::cases()),
