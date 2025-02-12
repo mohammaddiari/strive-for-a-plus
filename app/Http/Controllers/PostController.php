@@ -27,7 +27,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -41,7 +41,6 @@ class PostController extends Controller
             'level' => [Rule::enum(Level::class)],
             'capacity' => 'required|integer|min:1',
         ]);
-
 
         $request->user()->posts()->create($validated);
         return redirect(route('posts.index'));
