@@ -13,7 +13,7 @@
                     value="{{ old('subject') }}">
                 <x-input-error :messages="$errors->get('subject')" class="mt-2" />
             </div>
-            <div class="mb-4 flex justify-stretch space-x-4 space-y-4">
+            <div class="mb-4 flex justify-between">
                 <div>
                     <label for="price" class="block text-sm font-medium text-white">{{ __('Price') }}</label>
                     <input
@@ -46,7 +46,7 @@
                     id="level"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
                     @foreach(\App\Enums\Level::cases() as $level)
-                    <option value="{{ $level->value }}">{{ $level->name }}</option>
+                    <option value="{{ $level->value }}">{{ ucwords(str_replace('_', ' ', $level->value)) }}</option>
                     @endforeach
                 </select>
                 <x-input-error :messages="$errors->get('level')" class="mt-2" />
