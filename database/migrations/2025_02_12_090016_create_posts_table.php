@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Level;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tutor_id')->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'tutor_id');
             $table->string('subject');
             $table->decimal('price');
             $table->enum('level', Level::values());

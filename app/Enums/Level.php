@@ -12,4 +12,15 @@ enum Level: string
     {
         return array_column(self::cases(), 'value');
     }
+
+    public static function valueOptions(): array
+    {
+        $keyValues = [];
+
+        foreach (self::cases() as $key) {
+            $keyValues[$key->value] = ucwords(str_replace('_', ' ', $key->value));
+        }
+
+        return $keyValues;
+    }
 }

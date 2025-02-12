@@ -34,9 +34,9 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'subject' => 'required|string',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|min:0',
             'level' => [Rule::enum(Level::class)],
-            'capacity' => 'required|integer',
+            'capacity' => 'required|integer|min:1',
         ]);
 
         $request->user()->posts()->create($validated);
