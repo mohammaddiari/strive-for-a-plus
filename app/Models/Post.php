@@ -15,6 +15,7 @@ class Post extends Model
         'price',
         'level',
         'capacity',
+        'image',
     ];
 
     public function user(): BelongsTo

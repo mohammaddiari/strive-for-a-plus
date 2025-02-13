@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
-        <form method="POST" action="{{ route('posts.update', $post) }}">
+        <form method="POST" action="{{ route('posts.update', $post) }}" enctype="multipart/form-data">
             @csrf
             @method('patch')
             <div class="mb-4">
@@ -36,7 +36,8 @@
                         id="capacity"
                         placeholder="{{ __('Enter the capacity') }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                        value="{{ old('capacity', $post->capacity) }}">
+                        value="{{ old('capacity', $post->capacity) }}"
+                        min="1">
                     <x-input-error :messages="$errors->get('capacity')" class="mt-2" />
                 </div>
             </div>
@@ -52,6 +53,43 @@
                 </select>
                 <x-input-error :messages="$errors->get('level')" class="mt-2" />
             </div>
+            <div class="mb-4">
+                <label for="image" class="block text-sm font-medium text-white">{{ __('Image') }}</label>
+                <input
+                    type="file"
+                    name="image"
+                    id="image"
+                    accept="image/*"
+                    class="block w-full text-white border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    onchange="previewImage(event)">
+                <x-input-error :messages="$errors->get('image')" class="mt-2" />
+            </div>
+            <div class="mb-4">
+                <img id="image-preview" class="w-32 h-auto rounded-md shadow-sm" style="display: none;" />
+            </div>
+            
+            @if ($post->image)
+            <div class="mb-4" id="current-image">
+                <label class="block text-sm font-medium text-white">{{ __('Current Image') }}</label>
+                <img src="{{ asset($post->image) }}" class="w-32 h-auto rounded-md shadow-sm mb-4" />
+            </div>
+            @endif
+
+            <script>
+                function previewImage(event) {
+                    const reader = new FileReader();
+                    reader.onload = function() {
+                        const output = document.getElementById('image-preview');
+                        const currentImage = document.getElementById('current-image');
+                        output.src = reader.result;
+                        output.style.display = 'block';
+                        if (currentImage) {
+                            currentImage.style.display = 'none';
+                        }
+                    };
+                    reader.readAsDataURL(event.target.files[0]);
+                }
+            </script>
             <div class="mt-4 space-x-2 text-white">
                 <x-primary-button>{{ __('Save') }}</x-primary-button>
                 <a href="{{ route('posts.index') }}">{{ __('Cancel') }}</a>

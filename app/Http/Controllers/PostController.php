@@ -6,6 +6,7 @@ use App\Enums\Level;
 use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -40,7 +41,18 @@ class PostController extends Controller
             'price' => 'required|numeric|min:0',
             'level' => [Rule::enum(Level::class)],
             'capacity' => 'required|integer|min:1',
+            'image' => 'nullable|image',
         ]);
+
+        if ($request->has('image')) {
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = uniqid() . '.' . $extension;
+            $path = 'images/posts/';
+
+            $file->move($path, $filename);
+            $validated['image'] = $path . $filename;
+        }
 
         $request->user()->posts()->create($validated);
         return redirect(route('posts.index'));
@@ -78,7 +90,22 @@ class PostController extends Controller
             'price' => 'required|numeric|min:0',
             'level' => [Rule::enum(Level::class)],
             'capacity' => 'required|integer|min:1',
+            'image' => 'nullable|image',
         ]);
+
+        if ($request->has('image')) {
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = uniqid() . '.' . $extension;
+            $path = 'images/posts/';
+
+            if (File::exists($post->image)) {
+                File::delete($post->image);
+            }
+
+            $file->move($path, $filename);
+            $validated['image'] = $path . $filename;
+        }
 
         $post->update($validated);
 

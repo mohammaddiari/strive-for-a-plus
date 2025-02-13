@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('price');
             $table->enum('level', Level::values());
             $table->smallInteger('capacity');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
