@@ -16,11 +16,23 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(Request $request)
     {
-        return view('posts.index', [
-            'posts' => Post::with('user')->latest()->get(),
-        ]);
+        $sort = $request->query('sort', 'latest');
+
+        $posts = Post::query();
+
+        if ($sort === 'tutor') {
+            $posts->orderBy('user_id');
+        } elseif ($sort === 'level') {
+            $posts->orderBy('level');
+        } else {
+            $posts->orderBy('created_at', 'desc');
+        }
+
+        $posts = $posts->get();
+
+        return view('posts.index', compact('posts'));
     }
 
     /**

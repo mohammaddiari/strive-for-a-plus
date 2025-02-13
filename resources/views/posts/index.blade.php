@@ -1,5 +1,10 @@
 <x-app-layout>
     <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="flex justify-end mb-4">
+            <a href="{{ route('posts.index', ['sort' => 'latest']) }}" class="mr-4 text-blue-500">Latest</a>
+            <a href="{{ route('posts.index', ['sort' => 'tutor']) }}" class="mr-4 text-blue-500">Tutor</a>
+            <a href="{{ route('posts.index', ['sort' => 'level']) }}" class="text-blue-500">Level</a>
+        </div>
         @foreach ($posts as $post)
         <div class="mt-6 bg-white shadow-sm rounded-lg divide-y">
             <div class="p-6 flex space-x-4">
